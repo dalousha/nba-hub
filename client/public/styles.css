@@ -1,0 +1,59 @@
+body {
+  background-color: whitesmoke !important;
+}
+
+/* ==================== Home Page ===================== */
+
+.content_container {
+  margin: auto;
+  width: 95%;
+  display: grid;
+  grid-template-areas:
+    'Searchbar Searchbar Searchbar'
+    'HighlightVideo HighlightVideo HighlightVideo'
+    'TrackList Feed Feed';
+  align-content: center;
+  grid-gap: 10px;
+  padding: 10px;
+  background-color: aqua;
+}
+
+.content_container > div {
+  justify-content: center;
+  text-align: center;
+  background-color: whitesmoke;
+}
+
+.searchbar {
+  grid-area: Searchbar;
+}
+
+.highlight-video {
+  grid-area: HighlightVideo;
+}
+
+.trackerlist {
+  grid-area: Tracklist
+}
+
+.feed {
+  grid-area: Feed;
+}
+
+
+/* ==================== Search Bar ===================== */
+
+#searchbar {
+  margin: auto;
+  padding: 1%;
+}
+
+#searchbar > input {
+  width: 30%
+}
+
+/* ==================== Highlighted Video ===================== */
+
+#highlighedVideo {
+  padding: 2%;
+}

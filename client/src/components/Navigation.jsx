@@ -5,7 +5,8 @@ class Navigation extends React.Component {
 
   render() {
     return(
-      <Navbar>
+      <Navbar
+      color="light">
         <Nav>
           <NavItem>
             <NavLink href="/">Home</NavLink>
