@@ -2,6 +2,7 @@ import React from 'react';
 
 import PlayerSearch from './PlayerSearch.jsx';
 import HighlightedVideo from './HighlightedVideo.jsx';
+import TrackerList from './TrackerList.jsx';
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class Home extends React.Component {
 
 
           <div class='Trackerlist'>
-            TrackerList
+            <TrackerList/>
           </div>
 
           <div class='feed'>

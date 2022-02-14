@@ -1,14 +1,20 @@
 import React from 'react';
+import PlayerCard from './PlayerCard.jsx';
 
 class TrackerList extends React.Component {
-  constuctor(props) {
+  constructor(props) {
     super(props);
+    this.state = {
+      trackedPlayers: ['Lebron James', 'Giannis Antetokounpo', 'Stephen Curry', 'Nikola Jokic', 'Kevin Durant', 'Joel Embiid', 'Luka Doncic']
+    }
   }
 
   render() {
     return(
       <div>
-        Hello
+        {this.state.trackedPlayers.map((player, index) =>
+          <PlayerCard key={index} player={player}/>
+        )}
       </div>
     )
   }

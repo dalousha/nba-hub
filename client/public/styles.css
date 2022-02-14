@@ -9,9 +9,9 @@ body {
   width: 95%;
   display: grid;
   grid-template-areas:
-    'Searchbar Searchbar Searchbar'
-    'HighlightVideo HighlightVideo HighlightVideo'
-    'TrackList Feed Feed';
+    'Searchbar Searchbar Searchbar Searchbar Searchbar'
+    'HighlightVideo HighlightVideo HighlightVideo HighlightVideo HighlightVideo'
+    'TrackList Feed Feed Feed Feed';
   align-content: center;
   grid-gap: 10px;
   padding: 10px;
@@ -56,4 +56,30 @@ body {
 
 #highlighedVideo {
   padding: 2%;
+}
+
+/* ==================== Player Card ===================== */
+
+.playerCard {
+  display: grid;
+  grid-template-areas: 'playerPic playerInfo playerInfo';
+  grid-gap: 30px;
+  padding: 10px;
+  justify-content: flex-start;
+  background-color: whitesmoke;
+
+}
+
+.playerCard > div {
+  background-color: white;
+  border: 2px red solid;
+
+}
+
+.playerPicture {
+  grid-area: playerPic;
+}
+
+.playerInfo {
+  grid-area: playerInfo;
 }
