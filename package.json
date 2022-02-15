@@ -1,0 +1,22 @@
+{
+  "name": "nba-hub",
+  "version": "1.0.0",
+  "description": "Follow the highlights and social media posts of NBA players",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dalousha/nba-hub.git"
+  },
+  "author": "Dalton Xue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dalousha/nba-hub/issues"
+  },
+  "homepage": "https://github.com/dalousha/nba-hub#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}

@@ -61,10 +61,11 @@ body {
 /* ==================== Player Card ===================== */
 
 .playerCard {
+  margin: auto;
   display: grid;
   grid-template-areas: 'playerPic playerInfo playerInfo';
   grid-gap: 30px;
-  padding: 10px;
+  padding: 5px;
   justify-content: flex-start;
   background-color: whitesmoke;
 
@@ -78,6 +79,8 @@ body {
 
 .playerPicture {
   grid-area: playerPic;
+  width: 234px;
+  height: 171px;
 }
 
 .playerInfo {

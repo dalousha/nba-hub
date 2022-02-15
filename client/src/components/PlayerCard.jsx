@@ -8,11 +8,12 @@ class PlayerCard extends React.Component{
   render() {
     return(
       <div className='playerCard'>
-        <div className='playerPicture'>Image</div>
-        <div className='playerInfo'>This is a {this.props.player} card.</div>
+        <img className='playerPicture' src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.props.player.personId}.png`} alt='player headshot'></img>
+        <div className='playerInfo'>This is {this.props.player.firstName} {this.props.player.lastName}.</div>
       </div>
     )
   }
 }
 
 export default PlayerCard;
+

@@ -3,6 +3,7 @@ import React from 'react';
 import PlayerSearch from './PlayerSearch.jsx';
 import HighlightedVideo from './HighlightedVideo.jsx';
 import TrackerList from './TrackerList.jsx';
+import Feed from './Feed.jsx';
 
 class Home extends React.Component {
   constructor(props) {
@@ -11,30 +12,31 @@ class Home extends React.Component {
 
   render() {
     return(
-      <div class='allcontent'>
-        <div class='header'>
+      <div className='allcontent'>
+        <div className='header'>
           <h3> &nbsp; </h3>
         </div>
-        <div class='content_container'>
+        <div className='content_container'>
 
-          <div class='row searchbar'>
+          <div className='row searchbar'>
             <PlayerSearch/>
           </div>
 
 
 
 
-          <div class='row highlight-video'>
+          <div className='row highlight-video'>
             <HighlightedVideo/>
           </div>
 
 
-          <div class='Trackerlist'>
+          <div className='Trackerlist'>
+            <h4>Player Tracker</h4>
             <TrackerList/>
           </div>
 
-          <div class='feed'>
-            Feed
+          <div className='feed'>
+            <Feed/>
           </div>
 
         </div>
