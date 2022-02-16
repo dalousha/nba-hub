@@ -2,7 +2,7 @@ body {
   background-color: whitesmoke !important;
 }
 
-/* ==================== Home Page ===================== */
+/* ======================================== Home Page ========================================= */
 
 .content_container {
   margin: auto;
@@ -85,4 +85,13 @@ body {
 
 .playerInfo {
   grid-area: playerInfo;
+}
+
+/* ======================================== ADVANCED PLAYER SEARCH ========================================= */
+
+.advancedSearchContent {
+  margin: auto;
+  width: 95%;
+  align-content: center;
+
 }

@@ -8,7 +8,8 @@ class TrackerList extends React.Component {
     super(props);
     this.state = {
       trackedPlayers: [],
-      players: []
+      players: [],
+      allTeams: []
     }
 
     this.getPlayers = this.getPlayers.bind(this);
@@ -32,9 +33,23 @@ class TrackerList extends React.Component {
     })
   }
 
+  getTeams() {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        method: 'GET',
+        url: `https://data.nba.net/10s/prod/v1/2021/teams.json`,
+        dataType: 'json',
+        success: (data) => {
+          resolve(data);
+        }
+      })
+    })
+  }
+
   getData() {
     Promise.all([
-      this.getPlayers()
+      this.getPlayers(),
+      this.getTeams()
     ]).then(responses => {
       console.log(responses[0].league.standard);
       var defaultList = ['2544', '203507', '201939', '203999', '201142', '203954', '1629029'];
@@ -46,9 +61,18 @@ class TrackerList extends React.Component {
           }
         }
       }
+      var teams = [];
+      var responseTeams = responses[1].league.standard
+      console.log(responseTeams);
+      for (var k = 0; k < responseTeams.length; k++) {
+        if (responseTeams[k].isNBAFranchise === true) {
+          teams.push(responseTeams[k])
+        }
+      }
       this.setState({
         players: responses[0].league.standard,
-        trackedPlayers: trackedPlayers
+        trackedPlayers: trackedPlayers,
+        allTeams: teams
       })
     })
   }
@@ -57,7 +81,7 @@ class TrackerList extends React.Component {
     return(
       <div>
         {this.state.trackedPlayers.map((player, index) =>
-          <PlayerCard key={index} player={player}/>
+          <PlayerCard key={index} player={player} teams={this.state.allTeams}/>
         )}
       </div>
     )
