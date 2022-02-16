@@ -28,6 +28,8 @@ class AdvancedSearch extends React.Component {
     this.createTable = this.createTable.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+    this.calculateAge = this.calculateAge.bind(this);
+    this.findPlayerTeam = this.findPlayerTeam.bind(this);
 
   }
 
@@ -98,6 +100,27 @@ class AdvancedSearch extends React.Component {
     return { name, age, position, experience };
   }
 
+  calculateAge(dob) {
+    var today = new Date();
+    var birthDate = new Date(dob);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+  }
+
+  findPlayerTeam(teamId) {
+    for (var i = 0; i < this.state.allTeams.length; i++) {
+      if (teamId === this.state.allTeams[i].teamId) {
+        return this.state.allTeams[i].fullName
+      }
+    }
+    return 'Free Agent'
+  }
+
+
 
   render() {
     return(
@@ -124,7 +147,7 @@ class AdvancedSearch extends React.Component {
                 <TableCell>First Name</TableCell>
                 <TableCell>Last Name</TableCell>
                 <TableCell>Team</TableCell>
-                <TableCell align="right">Date of Birth</TableCell>
+                <TableCell align="right">Date of Birth&nbsp;(Age)</TableCell>
                 <TableCell align="right">Position</TableCell>
                 <TableCell align="right">Experience&nbsp;(years)</TableCell>
               </TableRow>
@@ -139,8 +162,8 @@ class AdvancedSearch extends React.Component {
                     {player.firstName}
                   </TableCell>
                   <TableCell>{player.lastName}</TableCell>
-                  <TableCell>{player.teamId}</TableCell>
-                  <TableCell align="right">{player.dateOfBirthUTC}</TableCell>
+                  <TableCell>{this.findPlayerTeam(player.teamId)}</TableCell>
+                  <TableCell align="right">{player.dateOfBirthUTC} ({this.calculateAge(player.dateOfBirthUTC)})</TableCell>
                   <TableCell align="right">{player.pos}</TableCell>
                   <TableCell align="right">{player.yearsPro}</TableCell>
                 </TableRow>
