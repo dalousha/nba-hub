@@ -1,17 +1,33 @@
 import React from 'react';
 import $ from 'jquery';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+import Paper from '@mui/material/Paper';
+
 class AdvancedSearch extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       allPlayers: [],
-      allTeams: []
+      allTeams: [],
+      page: 0,
+      setPage: 0,
+      rowsPerPage: 10
     }
 
     this.getPlayers = this.getPlayers.bind(this);
     this.getTeams = this.getTeams.bind(this);
     this.getData = this.getData.bind(this);
+
+    this.createTable = this.createTable.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
 
   }
 
@@ -65,6 +81,22 @@ class AdvancedSearch extends React.Component {
     })
   }
 
+  handleChangePage(event, newPage) {
+    this.setState({
+      page: newPage
+    })
+  }
+
+  handleChangeRowsPerPage(event) {
+    this.setState({
+      rowsPerPage: parseInt(event.target.value, 10),
+      page: 0
+    })
+  }
+
+  createTable(name, age, position, experience) {
+    return { name, age, position, experience };
+  }
 
 
   render() {
@@ -76,34 +108,55 @@ class AdvancedSearch extends React.Component {
             <input type='text'></input>
           </form>
         </div>
-
-        <div className='playersTable'>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Position</th>
-              <th>Experience</th>
-            </tr>
-          </thead>
-        {this.state.allPlayers.map((player, key) => {
-
-          return (
-            <tbody key={key}>
-              <tr>
-                <td>{player.firstName}</td>
-                <td>{player.lastName}</td>
-                <td>{player.pos}</td>
-                <td>{player.yearsPro}</td>
-              </tr>
-            </tbody>
-          )
-        })}
-      </table>
-        </div>
-
-
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          component="div"
+          count={this.state.allPlayers.length}
+          rowsPerPage={this.state.rowsPerPage}
+          page={this.state.page}
+          onPageChange={this.handleChangePage}
+          onRowsPerPageChange={this.handleChangeRowsPerPage}
+        />
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>First Name</TableCell>
+                <TableCell>Last Name</TableCell>
+                <TableCell>Team</TableCell>
+                <TableCell align="right">Date of Birth</TableCell>
+                <TableCell align="right">Position</TableCell>
+                <TableCell align="right">Experience&nbsp;(years)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.allPlayers.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((player) => (
+                <TableRow
+                  key={player.personId}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {player.firstName}
+                  </TableCell>
+                  <TableCell>{player.lastName}</TableCell>
+                  <TableCell>{player.teamId}</TableCell>
+                  <TableCell align="right">{player.dateOfBirthUTC}</TableCell>
+                  <TableCell align="right">{player.pos}</TableCell>
+                  <TableCell align="right">{player.yearsPro}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          component="div"
+          count={this.state.allPlayers.length}
+          rowsPerPage={this.state.rowsPerPage}
+          page={this.state.page}
+          onPageChange={this.handleChangePage}
+          onRowsPerPageChange={this.handleChangeRowsPerPage}
+        />
       </div>
     )
   }
