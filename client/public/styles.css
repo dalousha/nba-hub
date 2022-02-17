@@ -66,21 +66,22 @@ body {
   grid-template-areas: 'playerPic playerInfo playerInfo';
   grid-gap: 30px;
   padding: 5px;
-  justify-content: flex-start;
+  justify-content: center;
   background-color: whitesmoke;
 
 }
 
 .playerCard > div {
   background-color: white;
+  width: 200px;
   border: 2px red solid;
 
 }
 
 .playerPicture {
   grid-area: playerPic;
-  width: 234px;
-  height: 171px;
+  width: 163px;
+  height: 114px;
 }
 
 .playerInfo {

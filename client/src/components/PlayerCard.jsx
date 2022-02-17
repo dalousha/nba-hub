@@ -24,7 +24,10 @@ class PlayerCard extends React.Component{
     return(
       <div className='playerCard'>
         <img className='playerPicture' src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.props.player.personId}.png`} alt='player headshot'></img>
-        <div className='playerInfo'>This is {this.props.player.firstName} {this.props.player.lastName}, he plays for the {this.state.playerTeam.nickname}. </div>
+        <div className='playerInfo'>
+        <h6><a href={`/player/${this.props.player.personId}`}>{this.props.player.firstName} {this.props.player.lastName}</a></h6>
+        {this.state.playerTeam.fullName}
+        </div>
 
       </div>
     )
