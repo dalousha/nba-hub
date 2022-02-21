@@ -22,13 +22,9 @@ class Home extends React.Component {
             <PlayerSearch/>
           </div>
 
-
-
-
           <div className='row highlight-video'>
             <HighlightedVideo/>
           </div>
-
 
           <div className='Trackerlist'>
             <h4>Player Tracker</h4>

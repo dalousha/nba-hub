@@ -1,13 +1,135 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: whitesmoke !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ======================================== Home Page ========================================= */
+
+.content_container {
+  margin: auto;
+  width: 95%;
+  display: grid;
+  grid-template-areas:
+    'Searchbar Searchbar Searchbar Searchbar Searchbar'
+    'HighlightVideo HighlightVideo HighlightVideo HighlightVideo HighlightVideo'
+    'TrackList Feed Feed Feed Feed';
+  align-content: center;
+  grid-gap: 10px;
+  padding: 10px;
+  background-color: aqua;
 }
+
+.content_container > div {
+  justify-content: center;
+  text-align: center;
+  background-color: whitesmoke;
+}
+
+.searchbar {
+  grid-area: Searchbar;
+}
+
+.highlight-video {
+  grid-area: HighlightVideo;
+}
+
+.trackerlist {
+  grid-area: Tracklist
+}
+
+.feed {
+  grid-area: Feed;
+}
+
+
+/* ==================== Search Bar ===================== */
+
+#searchbar {
+  margin: auto;
+  padding: 1%;
+}
+
+#searchbar > input {
+  width: 30%
+}
+
+/* ==================== Highlighted Video ===================== */
+
+#highlighedVideo {
+  padding: 2%;
+}
+
+/* ==================== Player Card ===================== */
+
+.playerCard {
+  margin: auto;
+  display: grid;
+  grid-template-areas: 'playerPic playerInfo playerInfo';
+  grid-gap: 30px;
+  padding: 5px;
+  justify-content: center;
+  background-color: whitesmoke;
+
+}
+
+.playerCard > div {
+  background-color: white;
+  width: 200px;
+  border: 2px red solid;
+
+}
+
+.playerPicture {
+  grid-area: playerPic;
+  width: 163px;
+  height: 114px;
+}
+
+.playerInfo {
+  grid-area: playerInfo;
+}
+
+/* ======================================== ADVANCED PLAYER SEARCH ========================================= */
+
+.advancedSearchContent {
+  margin: auto;
+  width: 95%;
+  align-content: center;
+
+}
+
+/* ======================================== PLAYER PROFILE ========================================= */
+
+.playerProfileContainer {
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: wrap;
+  flex-direction: row;
+  background-color: aqua;
+}
+
+.playerProfilePicture {
+  width: 260px;
+  height: 190px;
+}
+
+.playerProfile {
+  background-color: salmon;
+  width: 350px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.playerTable {
+  background-color: aqua;
+  table-layout: fixed;
+  width: 100%;
+}
+
+
+
+
+/* ======================================== PLAYER PROFILE ========================================= */
