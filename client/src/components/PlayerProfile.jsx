@@ -8,13 +8,15 @@ class PlayerProfile extends React.Component {
     this.state = {
       playerId: window.location.pathname.split('/player/')[1],
       playerObj: {},
-      playerTeam: {}
+      playerTeam: {},
+      feedItems: []
     }
 
     this.getPlayerObj = this.getPlayerObj.bind(this);
     this.getPlayerTeam = this.getPlayerTeam.bind(this);
     this.getData = this.getData.bind(this);
     this.calculateAge = this.calculateAge.bind(this);
+    this.getRedditPosts = this.getRedditPosts.bind(this);
   }
 
   componentDidMount() {
@@ -47,7 +49,29 @@ class PlayerProfile extends React.Component {
     })
   }
 
+  getRedditPosts () {
+    fetch('https://www.reddit.com/r/nba/hot.json')
+      .then(responses => responses.json())
+      .then(data => {
+        console.log(data.data.children)
+        for (var i = 0; i < data.data.children.length; i++) {
+          if (data.data.children[i].data.title.includes(this.state.playerObj.firstName)) {
+            let redditPostObj = {
+              title: data.data.children[i].data.title,
+              url: data.data.children[i].data.url
+            }
+            console.log(i)
+            this.setState({
+              feedItems: [...this.state.feedItems, redditPostObj]
+            })
+          }
+        }
+      })
+
+  }
+
   getData() {
+    this.getRedditPosts();
     Promise.all([
       this.getPlayerObj(),
       this.getPlayerTeam()
@@ -60,12 +84,21 @@ class PlayerProfile extends React.Component {
             if (players[i].teamId === teams[j].teamId) {
               this.setState({
                 playerObj: players[i],
-                playerTeam: teams[j]
+                playerTeam: teams[j],
+                pickNum: players[i].draft.pickNum,
+                pickYear: players[i].draft.seasonYear,
+                pickRound: players[i].draft.roundNum
+              })
+            }
+            if (players[i].draft.teamId === teams[j].teamId) {
+              this.setState({
+                pickTeam: teams[j].nickname
               })
             }
           }
         }
       }
+
     })
   }
 
@@ -83,6 +116,7 @@ class PlayerProfile extends React.Component {
 
   render() {
     let playerObj = this.state.playerObj
+    console.log(this.state.feedItems)
     return(
       <div className='playerProfileContainer'>
         <div className="playerProfile">
@@ -126,16 +160,22 @@ class PlayerProfile extends React.Component {
               </tr>
               <tr>
                 <td>Draft</td>
-                <td>{playerObj.country} | Round: {playerObj.country} | Pick: {playerObj.country}</td>
+                <td>{this.state.pickYear} | Round: {this.state.pickRound} | Pick: {this.state.pickNum} Team: {this.state.pickTeam}</td>
               </tr>
+
             </tbody>
           </table>
         </div>
 
           {this.state.playerTeam.fullName}
         </div>
-        <div>
+        <div className='playerFeed'>
           Welcome to the player profile of {playerObj.firstName} {playerObj.lastName}.
+          <div>
+            {this.state.feedItems.map((item, index) =>
+              <div key={index}><a href={item.url}>{item.title}</a></div>
+            )}
+          </div>
         </div>
 
       </div>
