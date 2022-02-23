@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/dalousha/nba-hub#readme",
   "dependencies": {
+    "axios": "^0.26.0",
+    "cors": "^2.8.5",
     "express": "^4.17.2"
   }
 }

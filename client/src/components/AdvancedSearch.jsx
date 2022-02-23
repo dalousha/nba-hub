@@ -18,12 +18,16 @@ class AdvancedSearch extends React.Component {
       allTeams: [],
       page: 0,
       setPage: 0,
-      rowsPerPage: 10
+      rowsPerPage: 10,
+      filter: '',
+
     }
 
     this.getPlayers = this.getPlayers.bind(this);
     this.getTeams = this.getTeams.bind(this);
     this.getData = this.getData.bind(this);
+
+    this.handleSearch = this.handleSearch.bind(this);
 
     this.createTable = this.createTable.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
@@ -83,6 +87,12 @@ class AdvancedSearch extends React.Component {
     })
   }
 
+  handleSearch(event) {
+    this.setState({
+      filter: event.target.value
+    })
+  }
+
   handleChangePage(event, newPage) {
     this.setState({
       page: newPage
@@ -123,14 +133,19 @@ class AdvancedSearch extends React.Component {
 
 
   render() {
+    const filteredNames = this.state.allPlayers.filter(player => {
+      return (player.firstName + ' ' + player.lastName).toLowerCase().includes(this.state.filter.toLowerCase())
+    });
+    console.log(filteredNames);
     return(
       <div className="advancedSearchContent">
         <div>
           <form>
             <label>Search for a player</label> <br/>
-            <input type='text'></input>
+            <input type='text' value={this.state.filter} onChange={this.handleSearch}></input>
           </form>
         </div>
+
         <TablePagination
           rowsPerPageOptions={[10, 25, 50, 100]}
           component="div"
@@ -153,15 +168,15 @@ class AdvancedSearch extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.allPlayers.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((player) => (
+              {filteredNames.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((player) => (
                 <TableRow
                   key={player.personId}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {player.firstName}
+                    <a href={`/player/${player.personId}`}>{player.firstName}</a>
                   </TableCell>
-                  <TableCell>{player.lastName}</TableCell>
+                  <TableCell><a href={`/player/${player.personId}`}>{player.lastName}</a></TableCell>
                   <TableCell>{this.findPlayerTeam(player.teamId)}</TableCell>
                   <TableCell align="right">{player.dateOfBirthUTC} ({this.calculateAge(player.dateOfBirthUTC)})</TableCell>
                   <TableCell align="right">{player.pos}</TableCell>

@@ -17,10 +17,12 @@ class PlayerProfile extends React.Component {
     this.getData = this.getData.bind(this);
     this.calculateAge = this.calculateAge.bind(this);
     this.getRedditPosts = this.getRedditPosts.bind(this);
+    // this.getTwitterPosts = this.getTwitterPosts.bind(this);
   }
 
   componentDidMount() {
     this.getData()
+    // this.getTwitterPosts()
   }
 
   getPlayerObj() {
@@ -67,17 +69,31 @@ class PlayerProfile extends React.Component {
           }
         }
       })
-
   }
+
+  // getTwitterPosts() {
+
+  //     $.ajax({
+  //       method: 'GET',
+  //       url: 'http://localhost:3001/tweets',
+  //       dataType: 'json',
+  //       success: (data) => {
+  //         console.log(data);
+  //       }
+
+  //     })
+
+  // }
 
   getData() {
     this.getRedditPosts();
     Promise.all([
       this.getPlayerObj(),
-      this.getPlayerTeam()
+      this.getPlayerTeam(),
     ]).then(responses => {
       var players = responses[0].league.standard
       var teams = responses[1].league.standard
+
       for (var i = 0; i < players.length; i++) {
         if (this.state.playerId === players[i].personId) {
           for (var j = 0; j < teams.length; j++) {
