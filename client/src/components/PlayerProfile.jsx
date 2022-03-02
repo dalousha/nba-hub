@@ -1,5 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
+import FeedItem from './FeedItem.jsx'
+import { twitToken } from '../token.js'
 
 
 class PlayerProfile extends React.Component {
@@ -17,12 +19,12 @@ class PlayerProfile extends React.Component {
     this.getData = this.getData.bind(this);
     this.calculateAge = this.calculateAge.bind(this);
     this.getRedditPosts = this.getRedditPosts.bind(this);
-    // this.getTwitterPosts = this.getTwitterPosts.bind(this);
+    this.getTwitterPosts = this.getTwitterPosts.bind(this);
   }
 
   componentDidMount() {
     this.getData()
-    // this.getTwitterPosts()
+    this.getTwitterPosts()
   }
 
   getPlayerObj() {
@@ -71,7 +73,16 @@ class PlayerProfile extends React.Component {
       })
   }
 
-  // getTwitterPosts() {
+  getTwitterPosts() {
+    $.ajax({
+      method:'GET',
+      url: 'https://api.twitter.com/1.1/lists/statuses.json?list_id=208593319',
+      bearerToken: twitToken,
+      dataType: 'json',
+      success: (data) => {
+        console.log(data);
+      }
+    })
 
   //     $.ajax({
   //       method: 'GET',
@@ -83,7 +94,7 @@ class PlayerProfile extends React.Component {
 
   //     })
 
-  // }
+  }
 
   getData() {
     this.getRedditPosts();
@@ -189,7 +200,7 @@ class PlayerProfile extends React.Component {
           Welcome to the player profile of {playerObj.firstName} {playerObj.lastName}.
           <div>
             {this.state.feedItems.map((item, index) =>
-              <div key={index}><a href={item.url}>{item.title}</a></div>
+              <FeedItem key={index} item={item}/>
             )}
           </div>
         </div>

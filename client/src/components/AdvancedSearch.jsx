@@ -17,7 +17,6 @@ class AdvancedSearch extends React.Component {
       allPlayers: [],
       allTeams: [],
       page: 0,
-      setPage: 0,
       rowsPerPage: 10,
       filter: '',
 
@@ -89,7 +88,8 @@ class AdvancedSearch extends React.Component {
 
   handleSearch(event) {
     this.setState({
-      filter: event.target.value
+      filter: event.target.value,
+      page: 0
     })
   }
 
@@ -149,7 +149,7 @@ class AdvancedSearch extends React.Component {
         <TablePagination
           rowsPerPageOptions={[10, 25, 50, 100]}
           component="div"
-          count={this.state.allPlayers.length}
+          count={filteredNames.length}
           rowsPerPage={this.state.rowsPerPage}
           page={this.state.page}
           onPageChange={this.handleChangePage}
@@ -189,7 +189,7 @@ class AdvancedSearch extends React.Component {
         <TablePagination
           rowsPerPageOptions={[10, 25, 50, 100]}
           component="div"
-          count={this.state.allPlayers.length}
+          count={filteredNames.length}
           rowsPerPage={this.state.rowsPerPage}
           page={this.state.page}
           onPageChange={this.handleChangePage}
