@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import FeedItem from './FeedItem.jsx'
-import { twitToken } from '../token.js'
+import { twitToken, youtubeAPI } from '../token.js'
 
 
 class PlayerProfile extends React.Component {
@@ -20,11 +20,12 @@ class PlayerProfile extends React.Component {
     this.calculateAge = this.calculateAge.bind(this);
     this.getRedditPosts = this.getRedditPosts.bind(this);
     this.getTwitterPosts = this.getTwitterPosts.bind(this);
+    this.getYoutubeVideos = this.getYoutubeVideos.bind(this)
   }
 
   componentDidMount() {
     this.getData()
-    this.getTwitterPosts()
+
   }
 
   getPlayerObj() {
@@ -62,7 +63,8 @@ class PlayerProfile extends React.Component {
           if (data.data.children[i].data.title.includes(this.state.playerObj.firstName)) {
             let redditPostObj = {
               title: data.data.children[i].data.title,
-              url: data.data.children[i].data.url
+              url: data.data.children[i].data.url,
+              createdAt: data.data.children[i].data.created
             }
             console.log(i)
             this.setState({
@@ -73,27 +75,38 @@ class PlayerProfile extends React.Component {
       })
   }
 
-  getTwitterPosts() {
+  getTwitterPosts(fName, lName) {
     $.ajax({
-      method:'GET',
-      url: 'https://api.twitter.com/1.1/lists/statuses.json?list_id=208593319',
-      bearerToken: twitToken,
+      method: 'GET',
+      url: 'http://localhost:3001/tweets',
+      data: {
+        playerName: fName + ' ' + lName
+      },
+      contentType: 'application/json',
       dataType: 'json',
+      success: (data) => {
+        console.log('data', data)
+      }
+    })
+
+  }
+
+  getYoutubeVideos(fName, lName) {
+    $.ajax({
+      method: 'GET',
+      url: 'https://www.googleapis.com/youtube/v3/search',
+      data: {
+        key: youtubeAPI,
+        part: 'snippet',
+        q: fName + ' ' + lName,
+        channelId: 'UCRkBwWuLEig7FWaIrGmx',
+        maxResults: 3,
+        type: 'video'
+      },
       success: (data) => {
         console.log(data);
       }
     })
-
-  //     $.ajax({
-  //       method: 'GET',
-  //       url: 'http://localhost:3001/tweets',
-  //       dataType: 'json',
-  //       success: (data) => {
-  //         console.log(data);
-  //       }
-
-  //     })
-
   }
 
   getData() {
@@ -123,6 +136,8 @@ class PlayerProfile extends React.Component {
               })
             }
           }
+          this.getYoutubeVideos(players[i].firstName, players[i].lastName)
+          this.getTwitterPosts(players[i].firstName, players[i].lastName)
         }
       }
 

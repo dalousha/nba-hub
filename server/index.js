@@ -1,6 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+
+const bodyParser = require('body-parser')
 const axios = require('axios');
+
+const twitToken = 'AAAAAAAAAAAAAAAAAAAAAN0RZwEAAAAAOz6zadfC74nCuZT99Xz20OVCtZk%3DPo77xsk2e0MEMLTisGH3xyZDGPcKUsoTeUz1RTBOEp7ounkKAY'
+
 
 const corsOptions ={
   origin: '*',
@@ -14,16 +19,21 @@ const app = express();
 
 app.use(cors(corsOptions));
 
-// app.get('/tweets', function(req, res) {
-//   axios.get(`https://api.twitter.com/1.1/lists/statuses.json?list_id=1164892`)
-//   .then(function (response) {
-//     console.log(response);
-//     res.send('hello')
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   })
-// })
+app.use(bodyParser.json())
+
+app.get('/tweets', function(req, res) {
+  let params = {
+    q: req.query.playerName,
+    count: 1
+  }
+  let authHeaders = {
+    'Authorization': `Bearer ${twitToken}`
+  }
+  axios.get(`https://api.twitter.com/1.1/users/search.json`, {params, headers: authHeaders})
+  .then(users => users.data[0].id)
+  .then(user => axios.get(`https://api.twitter.com/1.1/statuses/user_timeline.json`, { params: { user_id: user, count: 10 }, headers: authHeaders }))
+  .then(response => res.send(response.data))
+})
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
