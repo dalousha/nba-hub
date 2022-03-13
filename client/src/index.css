@@ -150,6 +150,11 @@ body {
   display: flex;
 }
 
+.embeddedTweet {
+  justify-content: center;
+  align-items: center;
+}
+
 .feedLogo {
   height: 80px;
   width: 80px;

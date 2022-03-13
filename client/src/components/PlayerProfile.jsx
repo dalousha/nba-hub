@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import FeedItem from './FeedItem.jsx'
-import { twitToken, youtubeAPI } from '../token.js'
+import { youtubeAPI } from '../token.js'
 
 
 class PlayerProfile extends React.Component {
@@ -62,9 +62,10 @@ class PlayerProfile extends React.Component {
         for (var i = 0; i < data.data.children.length; i++) {
           if (data.data.children[i].data.title.includes(this.state.playerObj.firstName)) {
             let redditPostObj = {
+              media: 'reddit',
               title: data.data.children[i].data.title,
               url: data.data.children[i].data.url,
-              createdAt: data.data.children[i].data.created
+              createdAt: data.data.children[i].data.created * 1000
             }
             console.log(i)
             this.setState({
@@ -85,7 +86,21 @@ class PlayerProfile extends React.Component {
       contentType: 'application/json',
       dataType: 'json',
       success: (data) => {
-        console.log('data', data)
+        console.log('tweet data', data)
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].retweeted_status === undefined) {
+            let date = new Date(data[i].created_at)
+            let tweetObj = {
+              media: 'twitter',
+              id: data[i].id_str,
+              createdAt: date.getTime()
+            }
+            this.setState({
+              feedItems: [...this.state.feedItems, tweetObj]
+            })
+          }
+        }
+
       }
     })
 
@@ -159,6 +174,9 @@ class PlayerProfile extends React.Component {
   render() {
     let playerObj = this.state.playerObj
     console.log(this.state.feedItems)
+    let feedItems = this.state.feedItems.sort(function(a, b) {
+      return b.createdAt - a.createdAt
+    })
     return(
       <div className='playerProfileContainer'>
         <div className="playerProfile">
@@ -214,7 +232,7 @@ class PlayerProfile extends React.Component {
         <div className='playerFeed'>
           Welcome to the player profile of {playerObj.firstName} {playerObj.lastName}.
           <div>
-            {this.state.feedItems.map((item, index) =>
+            {feedItems.map((item, index) =>
               <FeedItem key={index} item={item}/>
             )}
           </div>
