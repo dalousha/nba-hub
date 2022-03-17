@@ -111,21 +111,37 @@ body {
 
 .weeklyHighlightVideos {
   margin-bottom: 20px;
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
 }
 
 .dailyHighlightVideos {
   margin-bottom: 20px;
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.fullGameHighlights {
+  margin-bottom: 20px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.vidColumn {
+  justify-content: center;
+  margin-right: 10px;
 }
 
 .videoThumbnail {
-  width: 240px;
-  height: 135px;
+  margin: auto;
+  width: 90%;
+  height: 155px;
 }
 
 .redditStreams {
-  margin: auto;
   display: flex;
 }
 

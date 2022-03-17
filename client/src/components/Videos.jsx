@@ -10,6 +10,7 @@ class Videos extends React.Component {
     this.state = {
       weeklyHighlights: [],
       dailyHighlights: [],
+      fullGameHighlights: [],
       mainPlayerVidId: '',
       redditStreams: [],
 
@@ -18,6 +19,7 @@ class Videos extends React.Component {
     this.getData = this.getData.bind(this);
     this.getWeeklyHighlights = this.getWeeklyHighlights.bind(this);
     this.getDailyHighlights = this.getDailyHighlights.bind(this);
+    this.getFullGameHighlights = this.getFullGameHighlights.bind(this);
     this.getRedditStreams = this.getRedditStreams.bind(this);
 
     this.changeVideo = this.changeVideo.bind(this);
@@ -69,6 +71,27 @@ class Videos extends React.Component {
     })
   }
 
+  getFullGameHighlights() {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        method: 'GET',
+        url: 'https://www.googleapis.com/youtube/v3/search',
+        data: {
+          key: youtubeAPI,
+          part: 'snippet',
+          q: 'allintitle: "Full Game Highlights"',
+          channelId: 'UCWJ2lWNubArHWmf3FIHbfcQ',
+          maxResults: 5,
+          order: 'date',
+          type: 'video'
+        },
+        success: (data) => {
+          resolve(data);
+        }
+      })
+    })
+  }
+
   getRedditStreams() {
     return new Promise((resolve, reject) => {
       fetch('https://www.reddit.com/r/nba/hot.json')
@@ -88,11 +111,13 @@ class Videos extends React.Component {
     Promise.all([
       this.getWeeklyHighlights(),
       this.getDailyHighlights(),
+      this.getFullGameHighlights(),
       this.getRedditStreams()
     ]).then(responses => {
       var weeklyVideos = responses[0].items
       var dailyVideos = responses[1].items
-      var redditPosts = responses[2].data.children
+      var fullGameVideos = responses[2].items
+      var redditPosts = responses[3].data.children
       console.log('responses', responses)
       for (var i = 0; i < weeklyVideos.length; i++) {
         var videoObj = {
@@ -113,6 +138,15 @@ class Videos extends React.Component {
         }
         this.setState({
           dailyHighlights: [...this.state.dailyHighlights, dailyVideoObj]
+        })
+      }
+
+      for (var jj = 0; jj < fullGameVideos.length; jj++) {
+        var fullGameVideoObj = {
+          vidObj: fullGameVideos[jj]
+        }
+        this.setState({
+          fullGameHighlights: [...this.state.fullGameHighlights, fullGameVideoObj]
         })
       }
 
@@ -143,8 +177,9 @@ class Videos extends React.Component {
         <h3>Weekly Highlights</h3>
         <div className='weeklyHighlightVideos'>
           {this.state.weeklyHighlights.map((video, index) =>
-            <div>
+            <div className="vidColumn">
               <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt={`${video.vidObj.id.videoId}`} onClick={this.changeVideo}/>
+              <br/>
               {video.vidObj.snippet.title}
             </div>
           )}
@@ -152,7 +187,16 @@ class Videos extends React.Component {
         <h3>Daily Hightlights</h3>
         <div className='dailyHighlightVideos'>
           {this.state.dailyHighlights.map((video, index) =>
-            <div>
+            <div className="vidColumn">
+              <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt={`${video.vidObj.id.videoId}`} onClick={this.changeVideo}/>
+              {video.vidObj.snippet.title}
+            </div>
+          )}
+        </div>
+        <h3>Full Game Highlights</h3>
+        <div className='fullGameHighlights'>
+          {this.state.fullGameHighlights.map((video, index) =>
+            <div className="vidColumn">
               <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt={`${video.vidObj.id.videoId}`} onClick={this.changeVideo}/>
               {video.vidObj.snippet.title}
             </div>
