@@ -20,6 +20,7 @@ class Videos extends React.Component {
     this.getDailyHighlights = this.getDailyHighlights.bind(this);
     this.getRedditStreams = this.getRedditStreams.bind(this);
 
+    this.changeVideo = this.changeVideo.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +75,13 @@ class Videos extends React.Component {
         .then(responses => responses.json())
         .then(data => resolve(data))
     })
+  }
+
+  changeVideo(e) {
+    if (e.target.getAttribute('alt') !== this.state.mainPlayerVidId) {
+      this.setState({mainPlayerVidId: e.target.getAttribute('alt')})
+    }
+
   }
 
   getData() {
@@ -136,7 +144,7 @@ class Videos extends React.Component {
         <div className='weeklyHighlightVideos'>
           {this.state.weeklyHighlights.map((video, index) =>
             <div>
-              <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt='video thumbnail'/>
+              <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt={`${video.vidObj.id.videoId}`} onClick={this.changeVideo}/>
               {video.vidObj.snippet.title}
             </div>
           )}
@@ -145,7 +153,7 @@ class Videos extends React.Component {
         <div className='dailyHighlightVideos'>
           {this.state.dailyHighlights.map((video, index) =>
             <div>
-              <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt='video thumbnail'/>
+              <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt={`${video.vidObj.id.videoId}`} onClick={this.changeVideo}/>
               {video.vidObj.snippet.title}
             </div>
           )}
