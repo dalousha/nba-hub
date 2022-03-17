@@ -93,6 +93,53 @@ body {
   grid-area: playerInfo;
 }
 
+/* ======================================== HIGHLIGHT LIBRARY ========================================= */
+
+.videosContainer {
+  margin: auto;
+  align-content: center;
+  justify-content: center;
+  width: 90%
+}
+
+.mainVideo {
+  margin: auto;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
+
+.weeklyHighlightVideos {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.dailyHighlightVideos {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.videoThumbnail {
+  width: 240px;
+  height: 135px;
+}
+
+.redditStreams {
+  margin: auto;
+  display: flex;
+}
+
+.redditClips {
+  margin-right: 10px;
+  width: 480px;
+  height: 270px;
+}
+
+.redditClip {
+  width: 100%;
+  height: 100%
+}
+
 /* ======================================== ADVANCED PLAYER SEARCH ========================================= */
 
 .advancedSearchContent {

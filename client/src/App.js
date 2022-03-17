@@ -5,6 +5,7 @@ import Home from './components/Home.jsx';
 import AdvancedSearch from './components/AdvancedSearch.jsx';
 import TrackerPage from './components/TrackerPage.jsx';
 import PlayerProfile from './components/PlayerProfile.jsx';
+import Videos from './components/Videos.jsx';
 
 import './App.css';
 
@@ -14,7 +15,7 @@ function App() {
       <Navigation/>
       <Routes>
           <Route exact path="/" element={<Home />}/>
-          <Route path="/highlights"/>
+          <Route path="/highlights" element={<Videos />}/>
           <Route path="/players" element={<AdvancedSearch />}/>
           <Route path="/player/:personId" element={<PlayerProfile />}></Route>
           <Route path="/tracker" element={<TrackerPage />}/>
