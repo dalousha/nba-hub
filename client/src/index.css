@@ -142,6 +142,7 @@ body {
 }
 
 .redditStreams {
+  margin: auto;
   display: flex;
 }
 
@@ -221,4 +222,48 @@ body {
 .feedLogo {
   height: 80px;
   width: 80px;
+}
+
+/* =========================================== LOGIN AND REGISTER PAGE ============================================ */
+
+.loginRegisterContainer {
+  margin: auto;
+  display: grid;
+  justify-content: center;
+  text-align: center;
+}
+
+.loginContainer {
+  margin-top: 10%;
+  height: 250px;
+  width: 400px;
+  justify-content: center;
+  border: 2px solid cyan;
+}
+
+.registerContainer {
+  margin-top: 10%;
+  height: 350px;
+  width: 400px;
+  justify-content: center;
+  border: 2px solid cyan;
+}
+
+.loginInput {
+  width: 90%;
+  margin-bottom: 20px;
+  border: 1px solid #4dfed1;
+}
+
+.loginHeader {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.loginButton {
+  width: 90%;
+  background-color: #08a4a7;
+  margin-bottom: 20px;
+  color: white;
+  border: none;
 }

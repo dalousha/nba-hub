@@ -6,6 +6,7 @@ import AdvancedSearch from './components/AdvancedSearch.jsx';
 import TrackerPage from './components/TrackerPage.jsx';
 import PlayerProfile from './components/PlayerProfile.jsx';
 import Videos from './components/Videos.jsx';
+import LoginRegister from './components/LoginRegister.jsx';
 
 import './App.css';
 
@@ -19,7 +20,7 @@ function App() {
           <Route path="/players" element={<AdvancedSearch />}/>
           <Route path="/player/:personId" element={<PlayerProfile />}></Route>
           <Route path="/tracker" element={<TrackerPage />}/>
-          <Route exact path="/SignIn"/>
+          <Route exact path="/login-register" element={<LoginRegister />}/>
         </Routes>
     </>
   );
