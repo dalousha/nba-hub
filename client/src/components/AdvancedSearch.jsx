@@ -28,7 +28,6 @@ class AdvancedSearch extends React.Component {
 
     this.handleSearch = this.handleSearch.bind(this);
 
-    this.createTable = this.createTable.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     this.calculateAge = this.calculateAge.bind(this);
@@ -106,9 +105,6 @@ class AdvancedSearch extends React.Component {
     })
   }
 
-  createTable(name, age, position, experience) {
-    return { name, age, position, experience };
-  }
 
   calculateAge(dob) {
     var today = new Date();

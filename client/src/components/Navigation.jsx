@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navbar, Nav, NavItem, NavLink} from 'reactstrap';
+import {Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 class Navigation extends React.Component {
 
@@ -11,9 +11,19 @@ class Navigation extends React.Component {
           <NavItem>
             <NavLink href="/">Home</NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink href="/highlights">Highlight Library</NavLink>
-          </NavItem>
+          <UncontrolledDropdown>
+            <DropdownToggle nav caret>
+              Video Library
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem href="/highlights">
+                Game Highlights
+              </DropdownItem>
+              <DropdownItem href="/reddit-clips">
+                Reddit Clips
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
           <NavItem>
             <NavLink href="/players">Players</NavLink>
           </NavItem>

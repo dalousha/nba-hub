@@ -141,15 +141,29 @@ body {
   height: 155px;
 }
 
+.redditClipContainer {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.redditHeader {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .redditStreams {
   margin: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 100px;
+  justify-content: space-around;
 }
 
 .redditClips {
   margin-right: 10px;
-  width: 480px;
-  height: 270px;
+  width: 720px;
+  height: 405px;
 }
 
 .redditClip {

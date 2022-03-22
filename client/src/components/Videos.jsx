@@ -12,7 +12,6 @@ class Videos extends React.Component {
       dailyHighlights: [],
       fullGameHighlights: [],
       mainPlayerVidId: '',
-      redditStreams: [],
 
     }
 
@@ -20,7 +19,6 @@ class Videos extends React.Component {
     this.getWeeklyHighlights = this.getWeeklyHighlights.bind(this);
     this.getDailyHighlights = this.getDailyHighlights.bind(this);
     this.getFullGameHighlights = this.getFullGameHighlights.bind(this);
-    this.getRedditStreams = this.getRedditStreams.bind(this);
 
     this.changeVideo = this.changeVideo.bind(this);
   }
@@ -92,14 +90,6 @@ class Videos extends React.Component {
     })
   }
 
-  getRedditStreams() {
-    return new Promise((resolve, reject) => {
-      fetch('https://www.reddit.com/r/nba/hot.json')
-        .then(responses => responses.json())
-        .then(data => resolve(data))
-    })
-  }
-
   changeVideo(e) {
     if (e.target.getAttribute('alt') !== this.state.mainPlayerVidId) {
       this.setState({mainPlayerVidId: e.target.getAttribute('alt')})
@@ -111,13 +101,11 @@ class Videos extends React.Component {
     Promise.all([
       this.getWeeklyHighlights(),
       this.getDailyHighlights(),
-      this.getFullGameHighlights(),
-      this.getRedditStreams()
+      this.getFullGameHighlights()
     ]).then(responses => {
       var weeklyVideos = responses[0].items
       var dailyVideos = responses[1].items
       var fullGameVideos = responses[2].items
-      var redditPosts = responses[3].data.children
       console.log('responses', responses)
       for (var i = 0; i < weeklyVideos.length; i++) {
         var videoObj = {
@@ -148,21 +136,6 @@ class Videos extends React.Component {
         this.setState({
           fullGameHighlights: [...this.state.fullGameHighlights, fullGameVideoObj]
         })
-      }
-
-
-      for (var j = 0; j < redditPosts.length; j++) {
-        if (redditPosts[j].data.url.includes('streamable')) {
-          let newURL = redditPosts[j].data.url.split('.com').join('.com/o')
-          let redditObj = {
-            thumbnail: redditPosts[j].data.thumbnail,
-            title: redditPosts[j].data.title,
-            url: newURL
-          }
-          this.setState({
-            redditStreams: [...this.state.redditStreams, redditObj]
-          })
-        }
       }
     })
   }
@@ -199,15 +172,6 @@ class Videos extends React.Component {
             <div className="vidColumn">
               <img className="videoThumbnail" src={video.vidObj.snippet.thumbnails.medium.url} alt={`${video.vidObj.id.videoId}`} onClick={this.changeVideo}/>
               {video.vidObj.snippet.title}
-            </div>
-          )}
-        </div>
-        <h3>Reddit Clips</h3>
-        <div className='redditStreams'>
-          {this.state.redditStreams.slice(0, 5).map((video, index) =>
-            <div className="redditClips">
-               <iframe className="redditClip" src={`${video.url}`} title={`redditClip${index}`} scrolling="no" allow="encrypted-media fullscreen;"></iframe>
-               {video.title}
             </div>
           )}
         </div>
