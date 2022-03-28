@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import { youtubeAPI } from '../token.js';
 
 import MainVideoPlayer from './MainVideoPlayer.jsx';
 
@@ -31,16 +30,7 @@ class Videos extends React.Component {
     return new Promise((resolve, reject) => {
       $.ajax({
         method: 'GET',
-        url: 'https://www.googleapis.com/youtube/v3/search',
-        data: {
-          key: youtubeAPI,
-          part: 'snippet',
-          q: 'allintitle: "week"',
-          channelId: 'UCWJ2lWNubArHWmf3FIHbfcQ',
-          maxResults: 5,
-          order: 'date',
-          type: 'video'
-        },
+        url: 'http://localhost:3001/videos/weeklyhighlights',
         success: (data) => {
           resolve(data);
         }
@@ -52,16 +42,7 @@ class Videos extends React.Component {
     return new Promise((resolve, reject) => {
       $.ajax({
         method: 'GET',
-        url: 'https://www.googleapis.com/youtube/v3/search',
-        data: {
-          key: youtubeAPI,
-          part: 'snippet',
-          q: 'allintitle: "of the night"',
-          channelId: 'UCWJ2lWNubArHWmf3FIHbfcQ',
-          maxResults: 5,
-          order: 'date',
-          type: 'video'
-        },
+        url: 'http://localhost:3001/videos/dailyhighlights',
         success: (data) => {
           resolve(data);
         }
@@ -73,16 +54,7 @@ class Videos extends React.Component {
     return new Promise((resolve, reject) => {
       $.ajax({
         method: 'GET',
-        url: 'https://www.googleapis.com/youtube/v3/search',
-        data: {
-          key: youtubeAPI,
-          part: 'snippet',
-          q: 'allintitle: "Full Game Highlights"',
-          channelId: 'UCWJ2lWNubArHWmf3FIHbfcQ',
-          maxResults: 5,
-          order: 'date',
-          type: 'video'
-        },
+        url: 'http://localhost:3001/videos/fullgamehighlights',
         success: (data) => {
           resolve(data);
         }
@@ -103,9 +75,9 @@ class Videos extends React.Component {
       this.getDailyHighlights(),
       this.getFullGameHighlights()
     ]).then(responses => {
-      var weeklyVideos = responses[0].items
-      var dailyVideos = responses[1].items
-      var fullGameVideos = responses[2].items
+      var weeklyVideos = responses[0]
+      var dailyVideos = responses[1]
+      var fullGameVideos = responses[2]
       console.log('responses', responses)
       for (var i = 0; i < weeklyVideos.length; i++) {
         var videoObj = {
@@ -141,7 +113,6 @@ class Videos extends React.Component {
   }
 
   render() {
-    console.log('this state: ', this.state)
     return(
       <div className='videosContainer'>
         <div className='mainVideo'>

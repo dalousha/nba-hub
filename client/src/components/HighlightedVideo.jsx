@@ -26,8 +26,7 @@ class HighlightedVideo extends React.Component {
         data: {
           key: youtubeAPI,
           part: 'snippet',
-          q: 'nba #shorts',
-          channelId: 'UCqQo7ewe87aYAe7ub5UqXMw',
+          channelId: 'UC-XWpctw55Q6b_AHo8rkJgw',
           maxResults: 1,
           order: 'date',
           type: 'video'
