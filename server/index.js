@@ -62,6 +62,20 @@ app.get('/videos/fullgamehighlights', function(req, res) {
   .then(videos => res.send(videos.data.items))
 })
 
+app.get('/videos/highlightedvideo', function(req, res) {
+  console.log('right here')
+  let params = {
+    key: token.youtubeAPI,
+    part: 'snippet',
+    channelId: 'UC-XWpctw55Q6b_AHo8rkJgw',
+    maxResults: 1,
+    order: 'date',
+    type: 'video'
+  }
+  axios.get('https://www.googleapis.com/youtube/v3/search', { params })
+  .then(videos => res.send(videos.data.items))
+})
+
 app.get('/tweets', function(req, res) {
   let params = {
     q: req.query.playerName,

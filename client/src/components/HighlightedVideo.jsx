@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import { youtubeAPI } from '../token.js';
 
 class HighlightedVideo extends React.Component {
   constructor(props) {
@@ -22,16 +21,7 @@ class HighlightedVideo extends React.Component {
     return new Promise((resolve, reject) => {
       $.ajax({
         method: 'GET',
-        url: 'https://www.googleapis.com/youtube/v3/search',
-        data: {
-          key: youtubeAPI,
-          part: 'snippet',
-          channelId: 'UC-XWpctw55Q6b_AHo8rkJgw',
-          maxResults: 1,
-          order: 'date',
-          type: 'video'
-        },
-        datatype: 'json',
+        url: 'http://localhost:3001/videos/highlightedvideo',
         success: (data) => {
           resolve(data);
         }
@@ -43,10 +33,9 @@ class HighlightedVideo extends React.Component {
     Promise.all([
       this.getHighlightedVideo()
     ]).then(responses => {
-      console.log(responses[0].items[0].id.videoId)
       this.setState({
-        videoObj: responses[0].items[0],
-        videoId: responses[0].items[0].id.videoId
+        videoObj: responses[0][0],
+        videoId: responses[0][0].id.videoId
       })
     })
   }
