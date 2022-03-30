@@ -11,6 +11,8 @@ class PlayerProfile extends React.Component {
       playerId: window.location.pathname.split('/player/')[1],
       playerObj: {},
       playerTeam: {},
+      seasonStats: {},
+      careerStats: {},
       feedItems: []
     }
 
@@ -20,7 +22,9 @@ class PlayerProfile extends React.Component {
     this.calculateAge = this.calculateAge.bind(this);
     this.getRedditPosts = this.getRedditPosts.bind(this);
     this.getTwitterPosts = this.getTwitterPosts.bind(this);
-    this.getYoutubeVideos = this.getYoutubeVideos.bind(this)
+    this.getYoutubeVideos = this.getYoutubeVideos.bind(this);
+
+    this.getPlayerStats = this.getPlayerStats.bind(this);
   }
 
   componentDidMount() {
@@ -54,55 +58,75 @@ class PlayerProfile extends React.Component {
     })
   }
 
-  getRedditPosts () {
-    fetch('https://www.reddit.com/r/nba/hot.json')
-      .then(responses => responses.json())
-      .then(data => {
-        console.log(data.data.children)
-        for (var i = 0; i < data.data.children.length; i++) {
-          if (data.data.children[i].data.title.includes(this.state.playerObj.firstName)) {
-            let redditPostObj = {
-              media: 'reddit',
-              title: data.data.children[i].data.title,
-              url: data.data.children[i].data.url,
-              createdAt: data.data.children[i].data.created * 1000
-            }
-            console.log(i)
-            this.setState({
-              feedItems: [...this.state.feedItems, redditPostObj]
-            })
-          }
+  getPlayerStats(playerId) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        method: 'GET',
+        url: `https://data.nba.net/data/10s/prod/v1/2021/players/${playerId}_profile.json`,
+        dataType: 'json',
+        success: (data) => {
+          resolve(data)
         }
       })
+    })
+  }
+
+  getRedditPosts () {
+    return new Promise((resolve, reject) => {
+      fetch('https://www.reddit.com/r/nba/hot.json')
+      .then(responses => responses.json())
+      .then(data => {
+        resolve(data)
+          // for (var i = 0; i < data.data.children.length; i++) {
+          //   if (data.data.children[i].data.title.includes(this.state.playerObj.firstName)) {
+          //     let redditPostObj = {
+          //       media: 'reddit',
+          //       title: data.data.children[i].data.title,
+          //       url: data.data.children[i].data.url,
+          //       createdAt: data.data.children[i].data.created * 1000
+          //     }
+          //     console.log(i)
+          //     this.setState({
+          //       feedItems: [...this.state.feedItems, redditPostObj]
+          //     })
+          //   }
+          // }
+      })
+    })
+
   }
 
   getTwitterPosts(fName, lName) {
-    $.ajax({
-      method: 'GET',
-      url: 'http://localhost:3001/tweets',
-      data: {
-        playerName: fName + ' ' + lName
-      },
-      contentType: 'application/json',
-      dataType: 'json',
-      success: (data) => {
-        console.log('tweet data', data)
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].retweeted_status === undefined) {
-            let date = new Date(data[i].created_at)
-            let tweetObj = {
-              media: 'twitter',
-              id: data[i].id_str,
-              createdAt: date.getTime()
-            }
-            this.setState({
-              feedItems: [...this.state.feedItems, tweetObj]
-            })
-          }
-        }
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        method: 'GET',
+        url: 'http://localhost:3001/tweets',
+        data: {
+          playerName: fName + ' ' + lName
+        },
+        contentType: 'application/json',
+        dataType: 'json',
+        success: (data) => {
+          resolve(data)
+          // console.log('tweet data', data)
+          // for (var i = 0; i < data.length; i++) {
+          //     if (data[i].retweeted_status === undefined) {
+          //     let date = new Date(data[i].created_at)
+          //     let tweetObj = {
+          //       media: 'twitter',
+          //       id: data[i].id_str,
+          //       createdAt: date.getTime()
+          //     }
+          //     this.setState({
+          //       feedItems: [...this.state.feedItems, tweetObj]
+          //     })
+          //   }
+          // }
 
-      }
+        }
+      })
     })
+
 
   }
 
@@ -151,11 +175,57 @@ class PlayerProfile extends React.Component {
               })
             }
           }
-          this.getYoutubeVideos(players[i].firstName, players[i].lastName)
-          this.getTwitterPosts(players[i].firstName, players[i].lastName)
+          // this.getYoutubeVideos(players[i].firstName, players[i].lastName)
+          // this.getTwitterPosts(players[i].firstName, players[i].lastName)
+          Promise.all([
+            this.getPlayerStats(this.state.playerObj.personId),
+            this.getRedditPosts(),
+            this.getTwitterPosts(this.state.playerObj.firstName, this.state.playerObj.lastName)
+          ]).then(responses => {
+            var seasonStats = responses[0].league.standard.stats.latest
+            var careerStats = responses[0].league.standard.stats.careerSummary
+            var redditPosts = responses[1].data.children
+            var tweets = responses[2]
+
+            this.setState({
+              seasonStats: seasonStats,
+              careerStats: careerStats
+            })
+
+            for (var i = 0; i < redditPosts.length; i++) {
+              if (redditPosts[i].data.title.includes(this.state.playerObj.firstName)) {
+                let redditPostObj = {
+                  media: 'reddit',
+                  title: redditPosts[i].data.title,
+                  url: redditPosts[i].data.url,
+                  createdAt: redditPosts[i].data.created * 1000
+                }
+                console.log(i)
+                this.setState({
+                  feedItems: [...this.state.feedItems, redditPostObj]
+                })
+              }
+            }
+
+            for (var j = 0; j < tweets.length; j++) {
+              if (tweets[j].retweeted_status === undefined) {
+              let date = new Date(tweets[j].created_at)
+              let tweetObj = {
+                media: 'twitter',
+                id: tweets[j].id_str,
+                createdAt: date.getTime()
+              }
+              this.setState({
+                feedItems: [...this.state.feedItems, tweetObj]
+              })
+            }
+          }
+
+
+
+          })
         }
       }
-
     })
   }
 
@@ -173,7 +243,6 @@ class PlayerProfile extends React.Component {
 
   render() {
     let playerObj = this.state.playerObj
-    console.log(this.state.feedItems)
     let feedItems = this.state.feedItems.sort(function(a, b) {
       return b.createdAt - a.createdAt
     })
@@ -226,7 +295,7 @@ class PlayerProfile extends React.Component {
             </tbody>
           </table>
         </div>
-
+          <h5>Player Stats</h5>
           {this.state.playerTeam.fullName}
         </div>
         <div className='playerFeed'>

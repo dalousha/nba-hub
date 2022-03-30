@@ -63,7 +63,6 @@ app.get('/videos/fullgamehighlights', function(req, res) {
 })
 
 app.get('/videos/highlightedvideo', function(req, res) {
-  console.log('right here')
   let params = {
     key: token.youtubeAPI,
     part: 'snippet',
