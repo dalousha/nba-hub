@@ -77,20 +77,6 @@ class PlayerProfile extends React.Component {
       .then(responses => responses.json())
       .then(data => {
         resolve(data)
-          // for (var i = 0; i < data.data.children.length; i++) {
-          //   if (data.data.children[i].data.title.includes(this.state.playerObj.firstName)) {
-          //     let redditPostObj = {
-          //       media: 'reddit',
-          //       title: data.data.children[i].data.title,
-          //       url: data.data.children[i].data.url,
-          //       createdAt: data.data.children[i].data.created * 1000
-          //     }
-          //     console.log(i)
-          //     this.setState({
-          //       feedItems: [...this.state.feedItems, redditPostObj]
-          //     })
-          //   }
-          // }
       })
     })
 
@@ -108,21 +94,6 @@ class PlayerProfile extends React.Component {
         dataType: 'json',
         success: (data) => {
           resolve(data)
-          // console.log('tweet data', data)
-          // for (var i = 0; i < data.length; i++) {
-          //     if (data[i].retweeted_status === undefined) {
-          //     let date = new Date(data[i].created_at)
-          //     let tweetObj = {
-          //       media: 'twitter',
-          //       id: data[i].id_str,
-          //       createdAt: date.getTime()
-          //     }
-          //     this.setState({
-          //       feedItems: [...this.state.feedItems, tweetObj]
-          //     })
-          //   }
-          // }
-
         }
       })
     })
@@ -175,8 +146,6 @@ class PlayerProfile extends React.Component {
               })
             }
           }
-          // this.getYoutubeVideos(players[i].firstName, players[i].lastName)
-          // this.getTwitterPosts(players[i].firstName, players[i].lastName)
           Promise.all([
             this.getPlayerStats(this.state.playerObj.personId),
             this.getRedditPosts(),
