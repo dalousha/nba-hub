@@ -120,7 +120,6 @@ class PlayerProfile extends React.Component {
   }
 
   getData() {
-    this.getRedditPosts();
     Promise.all([
       this.getPlayerObj(),
       this.getPlayerTeam(),

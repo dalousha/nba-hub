@@ -102,7 +102,7 @@ class Home extends React.Component {
           </div>
 
           <div className='feed'>
-            <Feed/>
+            <Feed players={this.state.players} trackedPlayers={this.state.trackedPlayers}/>
           </div>
 
         </div>
