@@ -15,7 +15,7 @@ class Navigation extends React.Component {
             <DropdownToggle nav caret>
               Video Library
             </DropdownToggle>
-            <DropdownMenu right>
+            <DropdownMenu end>
               <DropdownItem href="/highlights">
                 Game Highlights
               </DropdownItem>
@@ -26,9 +26,6 @@ class Navigation extends React.Component {
           </UncontrolledDropdown>
           <NavItem>
             <NavLink href="/players">Players</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/tracker">Tracker</NavLink>
           </NavItem>
           <NavItem>
             <NavLink href="/login-register">Login/Register</NavLink>

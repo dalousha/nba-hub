@@ -214,6 +214,9 @@ class PlayerProfile extends React.Component {
     let feedItems = this.state.feedItems.sort(function(a, b) {
       return b.createdAt - a.createdAt
     })
+    let seasonStats = this.state.seasonStats
+    let careerStats = this.state.careerStats
+    console.log(seasonStats)
     return(
       <div className='playerProfileContainer'>
         <div className="playerProfile">
@@ -257,14 +260,100 @@ class PlayerProfile extends React.Component {
               </tr>
               <tr>
                 <td>Draft</td>
-                <td>{this.state.pickYear} | Round: {this.state.pickRound} | Pick: {this.state.pickNum} Team: {this.state.pickTeam}</td>
+                <td>{this.state.pickYear} | Round: {this.state.pickRound} | Pick: {this.state.pickNum}
+                </td>
+              </tr>
+              <tr>
+                <td>Draft Team</td>
+                <td>{this.state.pickTeam}</td>
               </tr>
 
             </tbody>
           </table>
         </div>
-          <h5>Player Stats</h5>
-          {this.state.playerTeam.fullName}
+          <h5 id="statsHeader">Player Stats</h5>
+          <h7 className="statsHeading">Season Averages</h7>
+          <table className="statsTable">
+            <tbody>
+              <tr>
+                <td>Points</td>
+                <td>{seasonStats.ppg}</td>
+              </tr>
+              <tr>
+                <td>Assists</td>
+                <td>{seasonStats.apg}</td>
+              </tr>
+              <tr>
+                <td>Rebounds</td>
+                <td>{seasonStats.rpg}</td>
+              </tr>
+              <tr>
+                <td>Steals</td>
+                <td>{seasonStats.spg}</td>
+              </tr>
+              <tr>
+                <td>Blocks</td>
+                <td>{seasonStats.bpg}</td>
+              </tr>
+              <tr>
+                <td>Field Goal Percentage</td>
+                <td>{seasonStats.fgp} %</td>
+              </tr>
+              <tr>
+                <td>Free Throw Percentage</td>
+                <td>{seasonStats.ftp} %</td>
+              </tr>
+              <tr>
+                <td>Games Played</td>
+                <td>{seasonStats.gamesPlayed}</td>
+              </tr>
+              <tr>
+                <td>Games Started</td>
+                <td>{seasonStats.gamesStarted}</td>
+              </tr>
+            </tbody>
+          </table>
+          <h7 className="statsHeading">Career Averages</h7>
+          <table className="statsTable">
+            <tbody>
+              <tr>
+                <td>Points</td>
+                <td>{careerStats.ppg}</td>
+              </tr>
+              <tr>
+                <td>Assists</td>
+                <td>{careerStats.apg}</td>
+              </tr>
+              <tr>
+                <td>Rebounds</td>
+                <td>{careerStats.rpg}</td>
+              </tr>
+              <tr>
+                <td>Steals</td>
+                <td>{careerStats.spg}</td>
+              </tr>
+              <tr>
+                <td>Blocks</td>
+                <td>{careerStats.bpg}</td>
+              </tr>
+              <tr>
+                <td>Field Goal Percentage</td>
+                <td>{careerStats.fgp} %</td>
+              </tr>
+              <tr>
+                <td>Free Throw Percentage</td>
+                <td>{careerStats.ftp} %</td>
+              </tr>
+              <tr>
+                <td>Games Played</td>
+                <td>{careerStats.gamesPlayed}</td>
+              </tr>
+              <tr>
+                <td>Games Started</td>
+                <td>{careerStats.gamesStarted}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className='playerFeed'>
           Welcome to the player profile of {playerObj.firstName} {playerObj.lastName}.
