@@ -79,8 +79,8 @@ class Feed extends React.Component {
       return b.createdAt - a.createdAt
     })
     return(
-      <div>
-        This is the feed
+      <div className="feedContainer">
+        <h4>Feed</h4>
         {feedItems.map((item, index) =>
           <FeedItem key={index} item={item}/>
         )}

@@ -6,7 +6,7 @@ class TrackerList extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="trackerContainer">
         {this.props.trackedPlayers.map((player, index) =>
           <PlayerCard key={index} player={player} teams={this.props.teams}/>
         )}

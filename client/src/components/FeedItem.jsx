@@ -14,7 +14,7 @@ class FeedItem extends React.Component {
       return(
       <div className="feedItemContainer redditItem">
         <a href={item.url}><img className="feedLogo" src='https://www.redditinc.com/assets/images/site/reddit-logo.png' alt='redditLogo'></img></a>
-        <div>{item.title}</div>
+        <div className="feedItem">{item.title}</div>
       </div>
       )
     } else if (item.media === 'twitter') {

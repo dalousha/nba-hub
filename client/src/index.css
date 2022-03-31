@@ -65,6 +65,10 @@ body {
 
 /* ==================== Player Card ===================== */
 
+.Trackerlist {
+  padding: 10px 15px 10px 15px
+}
+
 .playerCard {
   margin: auto;
   display: grid;
@@ -224,8 +228,15 @@ body {
 
 /* ======================================== FEED ITEM ========================================= */
 
+.feedContainer {
+  padding: 10px 20px 10px 20px
+}
+
 .feedItemContainer {
   display: flex;
+  margin-bottom: 20px;
+  padding: 5px 5px 5px 5px;
+  border: 2px solid #08a4a7;
 }
 
 .embeddedTweet {
@@ -236,6 +247,13 @@ body {
 .feedLogo {
   height: 80px;
   width: 80px;
+}
+
+.feedItem {
+  width: 100%;
+  padding: 10px;
+  text-align: start;
+
 }
 
 /* =========================================== LOGIN AND REGISTER PAGE ============================================ */
