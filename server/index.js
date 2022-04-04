@@ -11,6 +11,7 @@ const corsOptions ={
 
 const PORT = 3001;
 
+const users = require('../db/routes/users')
 const videos = require('../db/routes/videos')
 const tweets = require('../db/routes/tweets')
 
@@ -18,7 +19,9 @@ const app = express();
 
 app.use(cors(corsOptions));
 
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 
 // ROUTES
@@ -26,6 +29,8 @@ app.use(bodyParser.json())
 app.use('/videos', videos);
 
 app.use('/tweets', tweets)
+
+app.use('/users', users)
 
 
 app.listen(PORT, () => {
