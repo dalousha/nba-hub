@@ -1,10 +1,8 @@
 const express = require('express');
-
+const { registerUser } = require('../../controllers/userControllers.js')
 const usersRouter = express.Router();
 
-usersRouter.post('/', function(req, res) {
-  console.log(req.body)
-})
+usersRouter.post('/', registerUser)
 
 
 

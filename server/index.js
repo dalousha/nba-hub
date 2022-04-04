@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 const corsOptions ={
   origin: '*',
@@ -16,6 +17,8 @@ const videos = require('../db/routes/videos')
 const tweets = require('../db/routes/tweets')
 
 const app = express();
+
+mongoose.connect('mongodb://localhost/users', {useNewUrlParser: true, useUnifiedTopology: true})
 
 app.use(cors(corsOptions));
 
