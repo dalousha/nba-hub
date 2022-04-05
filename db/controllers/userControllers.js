@@ -34,10 +34,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const authUser = asyncHandler(async (req, res) => {
   const {username, password} = req.body;
-
   const user = await User.findOne({ username });
 
   if (user && (await user.matchPassword(password))) {
+    console.log('matched')
     res.json({
       _id: user._id,
       username: user.username,
@@ -46,6 +46,7 @@ const authUser = asyncHandler(async (req, res) => {
       trackedPlayers: user.trackedPlayers
     })
   } else {
+    console.log('no match')
     res.status(400)
     throw new Error("Invalid username or password")
   }
