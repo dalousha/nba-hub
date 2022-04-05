@@ -24,7 +24,7 @@ function LoginRegister() {
       },
       datatype: 'json',
       success: (data) => {
-        console.log('success')
+        alert('You have successfully created an account on NBA-Hub!')
       }
     })
   }

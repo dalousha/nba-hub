@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser');
+const { notFound, errorHandler } = require('../db/middlewares/errorMiddlewares')
 
 const corsOptions ={
   origin: '*',
@@ -34,6 +35,9 @@ app.use('/videos', videos);
 app.use('/tweets', tweets)
 
 app.use('/users', users)
+
+app.use(notFound);
+app.use(errorHandler);
 
 
 app.listen(PORT, () => {
