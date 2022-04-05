@@ -26,7 +26,30 @@ const registerUser = asyncHandler(async (req, res) => {
       password: newUser.password,
       trackedPlayers: newUser.trackedPlayers
     })
+  } else {
+   res.status(400);
+   throw new Error('Error Occured!')
   }
 })
 
-module.exports = { registerUser };
+const authUser = asyncHandler(async (req, res) => {
+  const {username, password} = req.body;
+
+  const user = await User.findOne({ username });
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      trackedPlayers: user.trackedPlayers
+    })
+  } else {
+    res.status(400)
+    throw new Error("Invalid username or password")
+  }
+
+})
+
+module.exports = { registerUser, authUser };
