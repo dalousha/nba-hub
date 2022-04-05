@@ -10,7 +10,18 @@ function LoginRegister() {
   const [retypePassword, setRetypePassword] = useState('')
 
   const handleLoginSubmit = (e) => {
-    alert('nice')
+    $.ajax({
+      method: 'POST',
+      url: 'http://localhost:3001/users/login',
+      data: {
+        username: loginUsername,
+        password: loginPassword
+      },
+      datatpye: 'json',
+      success: (data) => {
+        console.log('data: ', data)
+      }
+    })
   }
 
   const handleRegSubmit = (e) => {
