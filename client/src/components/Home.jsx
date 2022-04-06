@@ -81,7 +81,7 @@ class Home extends React.Component {
     ]).then(responses => {
       var players = responses[0].league.standard;
       var teams = responses[1].league.standard.filter(team => team.isNBAFranchise === true);
-      console.log('responses', responses)
+
       if (responses[2] !== null) {
         this.setState({
           playerIds: responses[2].trackedPlayers
@@ -92,7 +92,6 @@ class Home extends React.Component {
         })
       }
 
-      console.log('wtf playerIds', this.state.playerIds)
       var playerIds = this.state.playerIds
       var trackedPlayers = [];
 
@@ -114,7 +113,6 @@ class Home extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return(
       <div className='allcontent'>
         <div className='header'>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Navigation from './components/Navigation.jsx';
@@ -10,20 +11,27 @@ import LoginRegister from './components/LoginRegister.js';
 
 import './App.css';
 
-function App() {
-  return (
-    <>
-      <Navigation/>
-      <Routes>
-          <Route exact path="/" element={<Home />}/>
-          <Route path="/highlights" element={<Videos />}/>
-          <Route path="/reddit-clips" element={<RedditClips />}/>
-          <Route path="/players" element={<AdvancedSearch />}/>
-          <Route path="/player/:personId" element={<PlayerProfile />}></Route>
-          <Route exact path="/login-register" element={<LoginRegister />}/>
-        </Routes>
-    </>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    console.log('DALTON XUE: ', JSON.parse(localStorage.getItem('userInfo')))
+  }
+
+  render() {
+    return (
+      <>
+        <Navigation/>
+        <Routes>
+            <Route exact path="/" element={<Home />}/>
+            <Route path="/highlights" element={<Videos />}/>
+            <Route path="/reddit-clips" element={<RedditClips />}/>
+            <Route path="/players" element={<AdvancedSearch />}/>
+            <Route path="/player/:personId" element={<PlayerProfile />}></Route>
+            <Route exact path="/login-register" element={<LoginRegister />}/>
+          </Routes>
+      </>
+    );
+  };
 }
+
 
 export default App;
