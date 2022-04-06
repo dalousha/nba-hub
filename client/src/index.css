@@ -200,6 +200,10 @@ body {
   height: 190px;
 }
 
+.track-button {
+  margin: 10px 0px 10px 0px;
+}
+
 .playerInfo {
   margin-bottom: 10px;
 }

@@ -8,6 +8,7 @@ class PlayerProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isPlayerTracked: false,
       playerId: window.location.pathname.split('/player/')[1],
       playerObj: {},
       playerTeam: {},
@@ -15,6 +16,8 @@ class PlayerProfile extends React.Component {
       careerStats: {},
       feedItems: []
     }
+
+    this.checkTrackList = this.checkTrackList.bind(this);
 
     this.getPlayerObj = this.getPlayerObj.bind(this);
     this.getPlayerTeam = this.getPlayerTeam.bind(this);
@@ -29,7 +32,26 @@ class PlayerProfile extends React.Component {
 
   componentDidMount() {
     this.getData()
+  }
 
+  checkTrackList() {
+    if (localStorage.getItem('userInfo') !== null) {
+      return new Promise((resolve, reject) => {
+        $.ajax({
+          method: 'GET',
+          url: `http://localhost:3001/users/`,
+          data: {
+            username: JSON.parse(localStorage.getItem('userInfo')).username
+          },
+          contentType: 'application/json',
+          dataType: 'json',
+          success: (data) => {
+            resolve(data);
+          }
+        })
+      })
+    }
+    return null;
   }
 
   getPlayerObj() {
@@ -123,9 +145,19 @@ class PlayerProfile extends React.Component {
     Promise.all([
       this.getPlayerObj(),
       this.getPlayerTeam(),
+      this.checkTrackList()
     ]).then(responses => {
       var players = responses[0].league.standard
       var teams = responses[1].league.standard
+      var trackedPlayers = responses[2].trackedPlayers
+
+      if (trackedPlayers !== null) {
+        if (trackedPlayers.includes(this.state.playerId)) {
+          this.setState({
+            isPlayerTracked: true
+          })
+        }
+      }
 
       for (var i = 0; i < players.length; i++) {
         if (this.state.playerId === players[i].personId) {
@@ -223,6 +255,7 @@ class PlayerProfile extends React.Component {
         <img className='playerProfilePicture' src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.state.playerId}.png`} alt='player headshot'></img>
 
         <div className="playerInfo">
+          {!this.state.isPlayerTracked ? <button className="track-button">Track</button> : null}
           <h5>Player Info</h5>
           <table className="playerTable">
             <tbody>
