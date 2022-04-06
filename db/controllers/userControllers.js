@@ -50,7 +50,18 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error("Invalid username or password")
   }
-
 })
 
-module.exports = { registerUser, authUser };
+const getUser = asyncHandler(async (req, res) => {
+  const {username} = req.query;
+  const user = await User.findOne({ username });
+  if (user) {
+    res.send({
+      trackedPlayers: user.trackedPlayers
+    })
+  } else {
+    res.send('')
+  }
+})
+
+module.exports = { registerUser, authUser, getUser };

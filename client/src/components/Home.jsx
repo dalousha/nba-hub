@@ -18,6 +18,7 @@ class Home extends React.Component {
 
     this.getPlayers = this.getPlayers.bind(this);
     this.getTeams = this.getTeams.bind(this);
+    this.getUsersPlayers = this.getUsersPlayers.bind(this);
 
     this.getData = this.getData.bind(this);
   }
@@ -52,15 +53,47 @@ class Home extends React.Component {
     })
   }
 
+  getUsersPlayers() {
+    if (localStorage.getItem('userInfo') !== null) {
+      return new Promise((resolve, reject) => {
+        $.ajax({
+          method: 'GET',
+          url: `http://localhost:3001/users/`,
+          data: {
+            username: JSON.parse(localStorage.getItem('userInfo')).username
+          },
+          contentType: 'application/json',
+          dataType: 'json',
+          success: (data) => {
+            resolve(data);
+          }
+        })
+      })
+    }
+    return null
+  }
+
   getData() {
     Promise.all([
       this.getPlayers(),
-      this.getTeams()
+      this.getTeams(),
+      this.getUsersPlayers()
     ]).then(responses => {
-      var players = responses[0].league.standard
-      var teams = responses[1].league.standard.filter(team => team.isNBAFranchise === true)
+      var players = responses[0].league.standard;
+      var teams = responses[1].league.standard.filter(team => team.isNBAFranchise === true);
+      console.log('responses', responses)
+      if (responses[2] !== null) {
+        this.setState({
+          playerIds: responses[2].trackedPlayers
+        })
+      } else {
+        this.setState({
+          playerIds: ['2544', '203507', '201939', '203999', '201142', '203954', '1629029']
+        })
+      }
 
-      var playerIds = this.state.playerIds;
+      console.log('wtf playerIds', this.state.playerIds)
+      var playerIds = this.state.playerIds
       var trackedPlayers = [];
 
       for (var i = 0; i < playerIds.length; i++) {
@@ -81,6 +114,7 @@ class Home extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return(
       <div className='allcontent'>
         <div className='header'>
