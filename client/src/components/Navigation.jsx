@@ -53,14 +53,11 @@ class Navigation extends React.Component {
           <NavItem>
             <NavLink href="/players">Players</NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink href="/login-register">Login/Register</NavLink>
-          </NavItem>
 
         </Nav>
         <Nav>
           <NavItem>
-            <NavLink href='/login-register' onClick={this.handleLogout}>Logout</NavLink>
+            {!this.state.userLoggedIn ? <NavLink href="/login-register">Login/Register</NavLink> : <NavLink href='/login-register' onClick={this.handleLogout}>Logout</NavLink>}
           </NavItem>
         </Nav>
       </Navbar>

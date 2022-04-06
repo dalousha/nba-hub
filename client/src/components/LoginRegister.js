@@ -35,9 +35,10 @@ function LoginRegister() {
         },
         datatype: 'json',
         success: (data) => {
-          console.log(data)
-          localStorage.setItem('userInfo', JSON.stringify(data))
-          navigate('/')
+          console.log(data);
+          localStorage.setItem('userInfo', JSON.stringify(data));
+          navigate('/');
+          window.location.reload(false);
         }
       })
 
