@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import $ from 'jquery';
 import Loading from './Loading.js';
 import ErrorMessage from './ErrorMessage.js';
+import { useNavigate } from 'react-router-dom';
 
 function LoginRegister() {
   const [loginUsername, setLoginUsername] = useState('');
@@ -16,6 +17,8 @@ function LoginRegister() {
   const [message, setMessage] = useState(null)
   const [regLoading, setRegLoading] = useState(false);
   const [regError, setRegError] = useState(false);
+
+  const navigate = useNavigate();
 
 
   const handleLoginSubmit = async (e) => {
@@ -34,10 +37,12 @@ function LoginRegister() {
         success: (data) => {
           console.log(data)
           localStorage.setItem('userInfo', JSON.stringify(data))
+          navigate('/')
         }
       })
 
       setLoginLoading(false)
+
 
     } catch (err) {
       setLoginLoading(false);
@@ -66,6 +71,7 @@ function LoginRegister() {
           datatype: 'json',
           success: (data) => {
             alert('You have successfully created an account on NBA-Hub!')
+            navigate('/login-register')
           }
         })
         setRegLoading(false)

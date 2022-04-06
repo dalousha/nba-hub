@@ -6,7 +6,7 @@ import AdvancedSearch from './components/AdvancedSearch.jsx';
 import PlayerProfile from './components/PlayerProfile.jsx';
 import Videos from './components/Videos.jsx';
 import RedditClips from './components/RedditClips.jsx';
-import LoginRegister from './components/LoginRegister.jsx';
+import LoginRegister from './components/LoginRegister.js';
 
 import './App.css';
 
