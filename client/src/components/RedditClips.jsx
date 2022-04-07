@@ -17,7 +17,7 @@ class RedditClips extends React.Component {
 
   getRedditStreams() {
     return new Promise((resolve, reject) => {
-      fetch('https://www.reddit.com/r/nba/hot.json')
+      fetch('https://www.reddit.com/r/nba/hot.json?limit=50')
         .then(responses => responses.json())
         .then(data => resolve(data))
     })

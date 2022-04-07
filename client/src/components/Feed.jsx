@@ -37,7 +37,7 @@ class Feed extends React.Component {
 
   getRedditPosts() {
     return new Promise((resolve, reject) => {
-      fetch('https://www.reddit.com/r/nba/hot.json')
+      fetch('https://www.reddit.com/r/nba/hot.json?limit=100')
       .then(responses => responses.json())
       .then(data => resolve(data))
     })
@@ -48,7 +48,7 @@ class Feed extends React.Component {
       this.getRedditPosts()
     ]).then(responses => {
       var redditPosts = responses[0].data.children
-
+      console.log('redditposts ', redditPosts)
       var feedItems = []
       for (var i = 0; i < redditPosts.length; i++) {
         for (var j = 0; j < this.props.trackedPlayers.length; j++) {

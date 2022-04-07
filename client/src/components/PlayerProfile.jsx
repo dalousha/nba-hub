@@ -114,7 +114,7 @@ class PlayerProfile extends React.Component {
 
   getRedditPosts () {
     return new Promise((resolve, reject) => {
-      fetch('https://www.reddit.com/r/nba/hot.json')
+      fetch('https://www.reddit.com/r/nba/hot.json?limit=100')
       .then(responses => responses.json())
       .then(data => {
         resolve(data)
@@ -209,7 +209,7 @@ class PlayerProfile extends React.Component {
             })
 
             for (var i = 0; i < redditPosts.length; i++) {
-              if (redditPosts[i].data.title.includes(this.state.playerObj.firstName)) {
+              if (redditPosts[i].data.title.includes(this.state.playerObj.firstName) && redditPosts[i].data.title.includes(this.state.playerObj.lastName)) {
                 let redditPostObj = {
                   media: 'reddit',
                   title: redditPosts[i].data.title,
@@ -259,9 +259,9 @@ class PlayerProfile extends React.Component {
     let feedItems = this.state.feedItems.sort(function(a, b) {
       return b.createdAt - a.createdAt
     })
+    console.log(feedItems)
     let seasonStats = this.state.seasonStats
     let careerStats = this.state.careerStats
-    console.log(seasonStats)
     return(
       <div className='playerProfileContainer'>
         <div className="playerProfile">
