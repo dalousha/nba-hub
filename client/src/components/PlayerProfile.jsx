@@ -68,7 +68,7 @@ class PlayerProfile extends React.Component {
       dataType: 'json',
       success: (data) => {
         console.log('successfully posted... data: ', data)
-        this.setState({isPlayerTracked: false})
+        this.setState({isPlayerTracked: true})
       }
     })
   }
