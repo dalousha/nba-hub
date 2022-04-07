@@ -1,7 +1,8 @@
 const express = require('express');
 const trackedPlayersRouter = express.Router();
-const { addPlayer } = require('../../controllers/trackedPlayersControllers.js')
+const { addPlayer, removePlayer } = require('../../controllers/trackedPlayersControllers.js')
 
-trackedPlayersRouter.post('/', addPlayer)
+trackedPlayersRouter.post('/addOne', addPlayer)
+trackedPlayersRouter.post('/removeOne', removePlayer)
 
 module.exports = trackedPlayersRouter;

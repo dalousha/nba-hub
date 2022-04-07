@@ -29,6 +29,7 @@ class PlayerProfile extends React.Component {
     this.getPlayerStats = this.getPlayerStats.bind(this);
 
     this.addPlayer = this.addPlayer.bind(this);
+    this.removePlayer = this.removePlayer.bind(this);
   }
 
   componentDidMount() {
@@ -60,7 +61,7 @@ class PlayerProfile extends React.Component {
   addPlayer() {
     $.ajax({
       method: 'POST',
-      url: `http://localhost:3001/trackedPlayers`,
+      url: `http://localhost:3001/trackedPlayers/addOne`,
       data: {
         username: JSON.parse(localStorage.getItem('userInfo')).username,
         playerId: (this.state.playerId)
@@ -69,6 +70,22 @@ class PlayerProfile extends React.Component {
       success: (data) => {
         console.log('successfully posted... data: ', data)
         this.setState({isPlayerTracked: true})
+      }
+    })
+  }
+
+  removePlayer() {
+    $.ajax({
+      method: 'POST',
+      url: `http://localhost:3001/trackedPlayers/removeOne`,
+      data: {
+        username: JSON.parse(localStorage.getItem('userInfo')).username,
+        playerId: (this.state.playerId)
+      },
+      dataType: 'json',
+      success: (data) => {
+        console.log(data)
+        this.setState({isPlayerTracked: false})
       }
     })
   }
@@ -194,7 +211,7 @@ class PlayerProfile extends React.Component {
             }
           }
           Promise.all([
-            this.getPlayerStats(this.state.playerObj.personId),
+            this.getPlayerStats(this.state.playerId),
             this.getRedditPosts(),
             this.getTwitterPosts(this.state.playerObj.firstName, this.state.playerObj.lastName)
           ]).then(responses => {
@@ -259,7 +276,6 @@ class PlayerProfile extends React.Component {
     let feedItems = this.state.feedItems.sort(function(a, b) {
       return b.createdAt - a.createdAt
     })
-    console.log(feedItems)
     let seasonStats = this.state.seasonStats
     let careerStats = this.state.careerStats
     return(
@@ -268,7 +284,7 @@ class PlayerProfile extends React.Component {
         <img className='playerProfilePicture' src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.state.playerId}.png`} alt='player headshot'></img>
 
         <div className="playerInfo">
-          {!this.state.isPlayerTracked ? <button className="track-button" onClick={this.addPlayer}>Track</button> : null}
+          {!this.state.isPlayerTracked ? <button className="track-button" onClick={this.addPlayer}>Track</button> : <button className="track-button" onClick={this.removePlayer}>Untrack</button>}
           <h5>Player Info</h5>
           <table className="playerTable">
             <tbody>
