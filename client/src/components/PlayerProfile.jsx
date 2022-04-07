@@ -8,7 +8,7 @@ class PlayerProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isPlayerTracked: false,
+      isPlayerTracked: true,
       playerId: window.location.pathname.split('/player/')[1],
       playerObj: {},
       playerTeam: {},
@@ -26,8 +26,9 @@ class PlayerProfile extends React.Component {
     this.getRedditPosts = this.getRedditPosts.bind(this);
     this.getTwitterPosts = this.getTwitterPosts.bind(this);
     this.getYoutubeVideos = this.getYoutubeVideos.bind(this);
-
     this.getPlayerStats = this.getPlayerStats.bind(this);
+
+    this.addPlayer = this.addPlayer.bind(this);
   }
 
   componentDidMount() {
@@ -50,8 +51,26 @@ class PlayerProfile extends React.Component {
           }
         })
       })
+    } else {
+      var promise = Promise.resolve(null)
+      return promise;
     }
-    return null;
+  }
+
+  addPlayer() {
+    $.ajax({
+      method: 'POST',
+      url: `http://localhost:3001/trackedPlayers`,
+      data: {
+        username: JSON.parse(localStorage.getItem('userInfo')).username,
+        playerId: (this.state.playerId)
+      },
+      dataType: 'json',
+      success: (data) => {
+        console.log('successfully posted... data: ', data)
+        this.setState({isPlayerTracked: false})
+      }
+    })
   }
 
   getPlayerObj() {
@@ -101,7 +120,6 @@ class PlayerProfile extends React.Component {
         resolve(data)
       })
     })
-
   }
 
   getTwitterPosts(fName, lName) {
@@ -149,12 +167,10 @@ class PlayerProfile extends React.Component {
     ]).then(responses => {
       var players = responses[0].league.standard
       var teams = responses[1].league.standard
-      var trackedPlayers = responses[2].trackedPlayers
-
-      if (trackedPlayers !== null) {
-        if (trackedPlayers.includes(this.state.playerId)) {
+      if (responses[2] !== null) {
+        if (!responses[2].trackedPlayers.includes(this.state.playerId)) {
           this.setState({
-            isPlayerTracked: true
+            isPlayerTracked: false
           })
         }
       }
@@ -220,9 +236,6 @@ class PlayerProfile extends React.Component {
               })
             }
           }
-
-
-
           })
         }
       }
@@ -255,7 +268,7 @@ class PlayerProfile extends React.Component {
         <img className='playerProfilePicture' src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.state.playerId}.png`} alt='player headshot'></img>
 
         <div className="playerInfo">
-          {!this.state.isPlayerTracked ? <button className="track-button">Track</button> : null}
+          {!this.state.isPlayerTracked ? <button className="track-button" onClick={this.addPlayer}>Track</button> : null}
           <h5>Player Info</h5>
           <table className="playerTable">
             <tbody>
