@@ -16,6 +16,7 @@ tweetsRouter.get('/', function(req, res) {
   .then(users => users.data[0].id)
   .then(user => axios.get(`https://api.twitter.com/1.1/statuses/user_timeline.json`, { params: { user_id: user, count: 10 }, headers: authHeaders }))
   .then(response => res.send(response.data))
+  .catch(err => console.log(err))
 })
 
 module.exports = tweetsRouter;
