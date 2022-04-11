@@ -2,12 +2,14 @@ import React from 'react';
 import $ from 'jquery';
 import FeedItem from './FeedItem.jsx'
 import { youtubeAPI } from '../token.js'
+import TrackButton from './TrackButton.js'
 
 
 class PlayerProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isUserLoggedIn: false,
       isPlayerTracked: true,
       playerId: window.location.pathname.split('/player/')[1],
       playerObj: {},
@@ -34,6 +36,9 @@ class PlayerProfile extends React.Component {
 
   componentDidMount() {
     this.getData()
+    if (localStorage.getItem('userInfo')) {
+      this.setState({isUserLoggedIn: true});
+    }
   }
 
   checkTrackList() {
@@ -284,7 +289,12 @@ class PlayerProfile extends React.Component {
         <img className='playerProfilePicture' src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.state.playerId}.png`} alt='player headshot'></img>
 
         <div className="playerInfo">
-          {!this.state.isPlayerTracked ? <button className="track-button" onClick={this.addPlayer}>Track</button> : <button className="track-button" onClick={this.removePlayer}>Untrack</button>}
+          <TrackButton
+            isUserLoggedIn={this.state.isUserLoggedIn}
+            isPlayerTracked={this.state.isPlayerTracked}
+            addPlayer={this.addPlayer}
+            removePlayer={this.removePlayer}
+          />
           <h5>Player Info</h5>
           <table className="playerTable">
             <tbody>
