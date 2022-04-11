@@ -236,7 +236,7 @@ class PlayerProfile extends React.Component {
       .then(response => {
         var redditPosts = response.data.children
         for (var i = 0; i < redditPosts.length; i++) {
-          if (redditPosts[i].data.title.includes(this.state.playerObj.firstName) && redditPosts[i].data.title.includes(this.state.playerObj.lastName)) {
+          if (redditPosts[i].data.title.includes(this.state.playerObj.firstName)) {
             let redditPostObj = {
               media: 'reddit',
               title: redditPosts[i].data.title,

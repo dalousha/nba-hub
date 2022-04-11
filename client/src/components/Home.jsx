@@ -13,12 +13,15 @@ class Home extends React.Component {
       playerIds: ['2544', '203507', '201939', '203999', '201142', '203954', '1629029'],
       trackedPlayers: [],
       players: [],
-      teams: []
+      teams: [],
+      feedItems: []
     }
 
     this.getPlayers = this.getPlayers.bind(this);
     this.getTeams = this.getTeams.bind(this);
     this.getUsersPlayers = this.getUsersPlayers.bind(this);
+
+    this.getRedditPosts = this.getRedditPosts.bind(this);
 
     this.getData = this.getData.bind(this);
   }
@@ -32,6 +35,23 @@ class Home extends React.Component {
       $.ajax({
         method: 'GET',
         url: `http://data.nba.net/10s/prod/v1/2021/players.json`,
+        dataType: 'json',
+        success: (data) => {
+          resolve(data);
+        }
+      })
+    })
+  }
+
+  getRedditPosts(fName, lName) {
+    var playerName = fName + ' ' + lName;
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        method: 'GET',
+        url: `http://localhost:3001/redditPosts`,
+        data: {
+          playerName: playerName
+        },
         dataType: 'json',
         success: (data) => {
           resolve(data);
@@ -103,16 +123,63 @@ class Home extends React.Component {
         }
       }
 
+
+
+      var feedItems = []
+      for (var ii = 0; ii < trackedPlayers.length; ii++) {
+        var player = trackedPlayers[ii]
+        this.getRedditPosts(player.firstName, player.lastName)
+        .then(responses => {
+          var redditPosts = responses.data.children
+          for (var k = 0; k < redditPosts.length; k++) {
+            let redditPostObj = {
+              media: 'reddit',
+              title: redditPosts[k].data.title,
+              url: redditPosts[k].data.url,
+              createdAt: redditPosts[k].data.created * 1000
+            }
+            feedItems.push(redditPostObj)
+          }
+          this.setState({feedItems: feedItems})
+        })
+      }
+
+
+
+
+      // var feedItems = [];
+      // for (var p = 0; p < trackedPlayers.length; p++) {
+      //   var player = trackedPlayers[p];
+      //   this.getRedditPosts(player.firstName, player.lastName)
+        // .then(responses => {
+        //   var redditPosts = responses.data.children
+        //   console.log(redditPosts)
+        //   for (var k = 0; k < redditPosts.length; k++) {
+        //     if (redditPosts[k].data.title.includes(player.firstName)) {
+        //       let redditPostObj = {
+        //         media: 'reddit',
+        //         title: redditPosts[k].data.title,
+        //         url: redditPosts[k].data.url,
+        //         createdAt: redditPosts[k].data.created * 1000
+        //       }
+        //       feedItems.push(redditPostObj)
+        //     }
+        //     console.log('iteration', p, ' ', k)
+        //   }
+        // })
+      // }
+      // console.log('feedItems', feedItems)
+
       this.setState({
         players: players,
         trackedPlayers: trackedPlayers,
         teams: teams
       })
-
     })
   }
 
   render() {
+    console.log(this.state)
     return(
       <div className='allcontent'>
         <div className='header'>
@@ -125,7 +192,7 @@ class Home extends React.Component {
           </div>
 
           <div className='row highlight-video'>
-            <HighlightedVideo/>
+            {/* <HighlightedVideo/> */}
           </div>
 
           <div className='Trackerlist'>
@@ -134,7 +201,7 @@ class Home extends React.Component {
           </div>
 
           <div className='feed'>
-            <Feed players={this.state.players} trackedPlayers={this.state.trackedPlayers}/>
+            <Feed players={this.state.players} trackedPlayers={this.state.trackedPlayers} feedItems={this.state.feedItems}/>
           </div>
 
         </div>

@@ -17,6 +17,7 @@ const users = require('../db/routes/users');
 const videos = require('../db/routes/videos');
 const tweets = require('../db/routes/tweets');
 const trackedPlayers = require('../db/routes/trackedPlayers');
+const redditPosts = require('../db/routes/redditPosts');
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use(bodyParser.urlencoded({
 app.use('/videos', videos);
 
 app.use('/tweets', tweets)
+
+app.use('/redditPosts', redditPosts)
 
 app.use('/users', users);
 
