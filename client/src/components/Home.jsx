@@ -192,7 +192,7 @@ class Home extends React.Component {
           </div>
 
           <div className='row highlight-video'>
-            {/* <HighlightedVideo/> */}
+            <HighlightedVideo/>
           </div>
 
           <div className='Trackerlist'>
