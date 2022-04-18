@@ -135,9 +135,9 @@ class PlayerProfile extends React.Component {
   }
 
   getRedditPosts (fName, lName) {
-    var playerName = fName + ' ' + lName;
+    // var playerName = fName + ' ' + lName;
     return new Promise((resolve, reject) => {
-      fetch(`https://www.reddit.com/r/nba/search.json?q=${playerName}&sort=top&limit=20&t=week`)
+      fetch(`https://www.reddit.com/r/nba/search.json?q=subreddit:nba%20${fName}%20${lName}&sort=hot&limit=30`)
       .then(responses => responses.json())
       .then(data => {
         resolve(data)
@@ -235,6 +235,7 @@ class PlayerProfile extends React.Component {
       this.getRedditPosts(this.state.playerObj.firstName, this.state.playerObj.lastName)
       .then(response => {
         var redditPosts = response.data.children
+        console.log('reddit', redditPosts)
         for (var i = 0; i < redditPosts.length; i++) {
           if (redditPosts[i].data.title.includes(this.state.playerObj.firstName)) {
             let redditPostObj = {

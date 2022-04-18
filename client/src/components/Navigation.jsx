@@ -12,7 +12,6 @@ class Navigation extends React.Component {
   }
 
   componentDidMount() {
-    console.log('local storage: ', localStorage.getItem('userInfo'))
     if (localStorage.getItem('userInfo') !== null) {
       this.setState({
         userLoggedIn: true

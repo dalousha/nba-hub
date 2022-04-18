@@ -53,7 +53,6 @@ function LoginRegister() {
   }
 
   const handleRegSubmit = async(e) => {
-    e.preventDefault();
 
     if (regPassword !== retypePassword) {
       setMessage('Passwords do not match!')

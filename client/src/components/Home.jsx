@@ -131,6 +131,7 @@ class Home extends React.Component {
         this.getRedditPosts(player.firstName, player.lastName)
         .then(responses => {
           var redditPosts = responses.data.children
+          console.log(redditPosts)
           for (var k = 0; k < redditPosts.length; k++) {
             let redditPostObj = {
               media: 'reddit',
